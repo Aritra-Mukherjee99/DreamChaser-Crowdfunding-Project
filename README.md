@@ -1,3 +1,9 @@
+# DreamChaser Crowdfunding Project
+Welcome to the DreamChaser crowdfunding project! We are excited to share our vision and invite you to be a part of our journey.
+
+# Project Overview: DreamChaser Crowdfunding Project
+DreamChaser is a transformative initiative designed to empower aspiring individuals and communities by providing them with the resources and support needed to achieve their dreams. Our mission is to create a platform where ideas can flourish, and dreams can become reality.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
