@@ -1,4 +1,4 @@
-# DreamChaser Crowdfunding Project (week 2 updated)
+# DreamChaser Crowdfunding Project (week 3 updated)
 Welcome to the DreamChaser crowdfunding project! We are excited to share our vision and invite you to be a part of our journey.
 
 # Project Overview: DreamChaser Crowdfunding Project
