@@ -1,5 +1,6 @@
 # DreamChaser Crowdfunding Project (week 3 updated)
 Welcome to the DreamChaser crowdfunding project! We are excited to share our vision and invite you to be a part of our journey.
+# backend is in branched
 
 # Project Overview: DreamChaser Crowdfunding Project
 DreamChaser is a transformative initiative designed to empower aspiring individuals and communities by providing them with the resources and support needed to achieve their dreams. Our mission is to create a platform where ideas can flourish, and dreams can become reality.
