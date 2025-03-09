@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom"; // ✅ Import useHistory
 import jwtDecode from "jwt-decode";
 import NavBar from "../Components/navbar_notLanding";
 import ShowQuery from "../Components/showquery";
@@ -8,14 +9,29 @@ import { toast } from "react-toastify";
 import styles from "../Components/styles/dashboard.module.css";
 import user from "../Components/assets/admin.png";
 
-const AdminDashboard = (p) => {
+const AdminDashboard = () => {
+  const history = useHistory(); // ✅ Initialize history
+
+  // ✅ Ensure token exists before decoding
+  const token = localStorage.getItem("token");
+  let email = "Unknown";
+  if (token) {
+    try {
+      email = jwtDecode(token).email;
+    } catch (error) {
+      console.error("Invalid token:", error);
+      toast.error("Session expired. Please log in again.");
+      history.replace("/login");
+      return null;
+    }
+  }
+
   if (!isAuthorised()) {
-    p.history.replace("/page-not-found");
     toast.error("Not authorised");
+    history.replace("/page-not-found"); // ✅ Use history.replace
     return null;
   }
-  let email = jwtDecode(localStorage.getItem("token")).email;
-  // let id = jwtDecode(localStorage.getItem("token")).foo;
+
   return (
     <React.Fragment>
       <NavBar />
@@ -27,25 +43,19 @@ const AdminDashboard = (p) => {
         <hr />
         <button
           className="btn btn-warning m-2"
-          onClick={() => {
-            p.history.push("/admin/new");
-          }}
+          onClick={() => history.push("/admin/new")}
         >
           New Admin +
         </button>
         <button
           className="btn btn-warning"
-          onClick={() => {
-            p.history.push("/admin/campaign/new");
-          }}
+          onClick={() => history.push("/admin/campaign/new")}
         >
           New Campaign
         </button>
         <button
           className="btn btn-primary m-2"
-          onClick={() => {
-            p.history.push("/all-campaigns");
-          }}
+          onClick={() => history.push("/all-campaigns")}
         >
           All Campaigns
         </button>
@@ -68,3 +78,5 @@ const AdminDashboard = (p) => {
 };
 
 export default AdminDashboard;
+
+

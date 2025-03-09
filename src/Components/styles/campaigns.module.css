@@ -23,7 +23,7 @@
 .title {
   display: -webkit-box;
   max-width: 800px;
-  -webkit-line-clamp: 2;
+  
   -webkit-box-orient: vertical;
   overflow: hidden;
   max-height: 60px;
@@ -42,7 +42,7 @@
 .description {
   display: -webkit-box;
   max-width: 800px;
-  -webkit-line-clamp: 6;
+  
   -webkit-box-orient: vertical;
   overflow: hidden;
   line-height: 2;

@@ -19,20 +19,15 @@ const LandingPage = (props) => {
       if (err === undefined) {
         setLoading(false);
         data.sort(compare);
-        if (data.length > 4) {
-          setData(data.slice(0, 4));
-        } else {
-          setData(data);
-        }
+        setData(data.length > 4 ? data.slice(0, 4) : data);
       } else {
-        if (err.response && err.response.data) {
-          toast.error(err.response.data.message);
-        } else toast.error("Something went wrong");
+        toast.error(err?.response?.data?.message || "Something went wrong");
       }
     }
     getData();
-    return null;
-  }, []);
+    
+  }, []); 
+  
   const handleClick = (p) => {
     let url = "/campaign/" + p;
     props.history.push(url);

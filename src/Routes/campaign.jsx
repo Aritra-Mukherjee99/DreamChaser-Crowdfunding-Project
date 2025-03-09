@@ -20,25 +20,36 @@ const Campaign = (props) => {
     if (p.target.value === "" || isNormalInteger(p.target.value))
       setAmount(p.target.value);
   };
-
   useEffect(() => {
+    let isMounted = true; // Track component mount status
+  
     async function getData() {
       const { data, err } = await getCampaignData(props.match.params.id);
-
+  
       if (err === undefined) {
-        setCampaign(data);
-        setLoading(false);
+        if (isMounted) { // Update state only if component is still mounted
+          setCampaign(data);
+          setLoading(false);
+        }
       } else {
-        props.history.replace("/page-not-found");
-        if (err.response && err.response.data) {
-          toast.error(err.response.data.message);
-        } else toast.error("Something went wrong");
-        return null;
+        if (isMounted) {
+          props.history.replace("/page-not-found");
+          if (err.response && err.response.data) {
+            toast.error(err.response.data.message);
+          } else {
+            toast.error("Something went wrong");
+          }
+        }
       }
     }
+  
     getData();
-    return null;
+  
+    return () => {
+      isMounted = false; // Cleanup to prevent state update on unmount
+    };
   }, [props.history, props.match.params.id]);
+  
 
   const handleEdit = () => {
     props.history.push(`/admin/campaign/${props.match.params.id}/edit`);
