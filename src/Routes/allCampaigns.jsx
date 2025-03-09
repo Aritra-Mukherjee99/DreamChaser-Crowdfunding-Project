@@ -15,21 +15,34 @@ const AllCampaigns = (props) => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
+    let isMounted = true; // Track component mount status
+  
     async function getData() {
       const { data, err } = await getAllCampaigns();
       if (err === undefined) {
-        setLoading(false);
-        data.sort(compare);
-        setData(data);
+        if (isMounted) {
+          setLoading(false);
+          data.sort(compare);
+          setData(data);
+        }
       } else {
-        if (err.response && err.response.data) {
-          toast.error(err.response.data.message);
-        } else toast.error("Something went wrong");
+        if (isMounted) {
+          if (err.response && err.response.data) {
+            toast.error(err.response.data.message);
+          } else {
+            toast.error("Something went wrong");
+          }
+        }
       }
     }
+  
     getData();
-    return null;
+  
+    return () => {
+      isMounted = false; // Cleanup function to prevent state updates after unmount
+    };
   }, []);
+  
   const handleClick = (p) => {
     let url = "/campaign/" + p;
     props.history.push(url);

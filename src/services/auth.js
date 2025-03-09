@@ -3,48 +3,72 @@ import jwtDecode from "jwt-decode";
 import config from "../config.js";
 import { toast } from "react-toastify";
 
-axios.defaults.headers.common["authorization"] =
-  "Bearer " + localStorage.getItem("token");
+// Get Token from localStorage
+const getToken = () => localStorage.getItem("token");
 
+// Attach token to every request dynamically
+axios.interceptors.request.use((req) => {
+  const token = getToken();
+  if (token) req.headers.authorization = `Bearer ${token}`;
+  return req;
+});
+
+// Register Admin
 export const register = async (email, password) => {
   try {
-    await axios.post(config.registerAdminUrl(), {
-      email: email,
-      password: password,
-    });
-    toast.success("Registered");
+    await axios.post(config.registerAdminUrl(), { email, password });
+    toast.success("Registration successful!");
   } catch (e) {
-    if (e.response && e.response.data) toast.error(e.response.data.message);
-    else toast.error("Something went wrong.");
+    handleError(e);
   }
 };
 
+// Login Admin
 export const login = async (email, password) => {
-  let err = undefined;
   try {
-    const x = await axios.post(config.loginAdminUrl(), {
-      email: email,
-      password: password,
-    });
+    const response = await axios.post(config.loginAdminUrl(), { email, password });
 
-    localStorage.setItem("token", x.data.jwt);
-    console.log("LoggedIn");
+    // Store token
+    localStorage.setItem("token", response.data.jwt);
+    return { success: true };
   } catch (e) {
-    err = e;
+    handleError(e);
+    return { success: false, message: e.response?.data?.message || "Login failed." };
   }
-  return err;
 };
 
-export const logout = async () => {
+// Logout Admin
+export const logout = () => {
   localStorage.removeItem("token");
 };
 
+// Check Authorization Status
 export const isAuthorised = () => {
-  if (!localStorage.getItem("token")) return false;
-  let exp = jwtDecode(localStorage.getItem("token")).exp;
-  if (!exp || exp * 1000 < Date.now()) {
-    localStorage.removeItem("token");
+  const token = getToken();
+  if (!token) return false;
+
+  try {
+    const { exp } = jwtDecode(token);
+    
+    // If token is expired, remove it
+    if (exp * 1000 < Date.now()) {
+      logout();
+      return false;
+    }
+
+    return true;
+  } catch {
+    logout();
     return false;
   }
-  return true;
 };
+
+// Handle API Errors
+const handleError = (e) => {
+  if (e.response?.data?.message) {
+    toast.error(e.response.data.message);
+  } else {
+    toast.error("Something went wrong.");
+  }
+};
+

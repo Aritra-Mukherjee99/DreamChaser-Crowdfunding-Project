@@ -33,7 +33,7 @@ const FloatBtn = (props) => {
             {!showShare && (
               <i className="fa fa-share-alt" aria-hidden="true"></i>
             )}
-            {showShare && <i class="fa fa-times" aria-hidden="true"></i>}
+            {showShare && <i className="fa fa-times" aria-hidden="true"></i>}
           </div>
         </div>
       </div>

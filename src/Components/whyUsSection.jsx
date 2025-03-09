@@ -8,7 +8,7 @@ const WhyUs = () => {
       <div className="row col-12">
         <div className={`col-md-8 ${styles.whyUs}`}>
           <h1 className={styles.header}>Why Choose DreamChaser?</h1>
-          <p className={styles.para}>
+          <div className={styles.para}>
           
     <p>At DreamChaser, we believe in the power of dreams and the collective strength of the community. Here's why you should choose us to bring your dreams to life:</p>
     <ul>
@@ -20,7 +20,7 @@ const WhyUs = () => {
         <li><strong>Innovative Features</strong>: DreamChaser offers innovative features like real-time analytics, social media integration, and personalized campaign pages, giving you the tools you need to stand out and attract backers.</li>
     </ul>
     <p>Join DreamChaser today and be part of a community that believes in making dreams a reality. Together, we can chase dreams, one project at a time.</p>
-          </p>
+          </div>
         </div>
         <div className="col-md-4">
           <img className={styles.image} src={ChildImage} alt="HappyKids" />
